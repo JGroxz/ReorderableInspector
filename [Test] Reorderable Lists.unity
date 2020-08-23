@@ -160,7 +160,46 @@ MonoBehaviour:
   deepChildList:
   - one
   - two
+  - two
+  - two
   - three
+  - three
+  deepChildEventList:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &728567572
 Transform:
   m_ObjectHideFlags: 0
@@ -189,8 +228,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   list:
   - 1
-  - 2
   - 3
+  - 2
   childList: 010000000200000003000000
 --- !u!114 &728567574
 MonoBehaviour:
@@ -280,7 +319,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 750157c3dcc275d40acd39e28a681e79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unrelatedList: 000001
+  unrelatedList: 0100
 --- !u!4 &1608990247
 Transform:
   m_ObjectHideFlags: 0

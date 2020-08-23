@@ -39,7 +39,7 @@ namespace SubjectNerd.Utilities
     using UnityEngine;
     using Object = UnityEngine.Object;
 
-    [CustomEditor(typeof(Object), true), CanEditMultipleObjects] //[CustomEditor(typeof(Object), true /*, isFallback = true*/), CanEditMultipleObjects]
+    [CustomEditor(typeof(MonoBehaviour), true), CanEditMultipleObjects] //[CustomEditor(typeof(Object), true /*, isFallback = true*/), CanEditMultipleObjects]
     public class ReorderableArrayInspector : Editor
     {
         #region Data Types

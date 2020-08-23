@@ -38,9 +38,8 @@ namespace SubjectNerd.Utilities
     using UnityEditor.Callbacks;
     using UnityEditorInternal;
     using UnityEngine;
-    using Object = UnityEngine.Object;
 
-    [CustomEditor(typeof(ReorderableListTest), false)/*, CanEditMultipleObjects*/] //[CustomEditor(typeof(Object), true /*, isFallback = true*/), CanEditMultipleObjects]
+    [CustomEditor(typeof(UnityEngine.Object), true)/*, CanEditMultipleObjects*/] //[CustomEditor(typeof(Object), true /*, isFallback = true*/), CanEditMultipleObjects]
     public class ReorderableArrayInspector : Editor
     {
         #region Encapsulate

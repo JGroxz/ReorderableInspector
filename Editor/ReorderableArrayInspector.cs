@@ -39,11 +39,9 @@ namespace SubjectNerd.Utilities
     using UnityEngine;
     using Object = UnityEngine.Object;
 
-    [CustomEditor(typeof(UnityEngine.Object), true)/*, CanEditMultipleObjects*/] //[CustomEditor(typeof(Object), true /*, isFallback = true*/), CanEditMultipleObjects]
+    [CustomEditor(typeof(Object), true), CanEditMultipleObjects] //[CustomEditor(typeof(Object), true /*, isFallback = true*/), CanEditMultipleObjects]
     public class ReorderableArrayInspector : Editor
     {
-        #region Encapsulate
-
         #region Data Types
 
         protected struct ContextMenuData
@@ -342,8 +340,7 @@ namespace SubjectNerd.Utilities
         }
 
         #endregion
-
-
+        
         #region Variables
 
         public bool isSubEditor;
@@ -372,7 +369,7 @@ namespace SubjectNerd.Utilities
             Debug.ClearDeveloperConsole();
             Debug.Log("Bloopers");
 
-            // InitializeInspector();
+            InitializeInspector();
             
             Debug.Log("Coopers");
         }
@@ -381,18 +378,18 @@ namespace SubjectNerd.Utilities
         {
             EditorGUILayout.HelpBox("I AM HERE", MessageType.Warning);
 
-            // if (InspectorGUIStart(alwaysDrawInspector) == false) return;
+            if (InspectorGUIStart(alwaysDrawInspector) == false) return;
 
-            // EditorGUI.BeginChangeCheck();
-            //
-            // DrawInspector();
-            //
-            // if (EditorGUI.EndChangeCheck())
-            // {
-            //     serializedObject.ApplyModifiedProperties();
-            //     ForceInitInspector();
-            // }
-            //
+            EditorGUI.BeginChangeCheck();
+            
+            DrawInspector();
+            
+            if (EditorGUI.EndChangeCheck())
+            {
+                serializedObject.ApplyModifiedProperties();
+                ForceInitInspector();
+            }
+            
             // DrawContextMenuButtons();
             
             EditorGUILayout.HelpBox("I AM STILL HERE", MessageType.Warning);
@@ -400,7 +397,7 @@ namespace SubjectNerd.Utilities
 
         #endregion
 
-//         #region Initialization
+         #region Initialization
 
         protected bool InspectorGUIStart(bool force = false)
         {
@@ -447,12 +444,12 @@ namespace SubjectNerd.Utilities
             isInitialized = true;
         }
 
-//         protected virtual void ForceInitInspector()
-//         {
-//             isInitialized = false;
-//             
-//             InitInspector();
-//         }
+         protected virtual void ForceInitInspector()
+         {
+             isInitialized = false;
+             
+             InitializeInspector();
+         }
 
         protected void FindTargetProperties()
         {
@@ -704,154 +701,156 @@ namespace SubjectNerd.Utilities
 //         #region ScriptableObjects Inspector Methods (or are they?)
 //
 //
-//         protected virtual void DrawInspector()
-//         {
-//             DrawPropertiesAll();
-//         }
-//
-//         protected enum IterControl
-//         {
-//             Draw,
-//             Continue,
-//             Break
-//         }
-//
-//         protected void IterateDrawProperty(SerializedProperty property, Func<IterControl> filter = null)
-//         {
-//             if (property.NextVisible(true))
-//             {
-//                 // Remember depth iteration started from
-//                 int depth = property.Copy().depth;
-//                 do
-//                 {
-//                     // If goes deeper than the iteration depth, get out
-//                     if (property.depth != depth)
-//                         break;
-//                     if (isSubEditor && property.name.Equals("m_Script"))
-//                         continue;
-//
-//                     if (filter != null)
-//                     {
-//                         IterControl filterResult = filter();
-//                         if (filterResult == IterControl.Break)
-//                             break;
-//                         if (filterResult == IterControl.Continue)
-//                             continue;
-//                     }
-//
-//                     DrawPropertySortableArray(property);
-//                 } while (property.NextVisible(false));
-//             }
-//         }
-//
-//         /// <summary>
-//         ///     Draw a SerializedProperty as a ReorderableList if it was found during
-//         ///     initialization, otherwise use EditorGUILayout.PropertyField
-//         /// </summary>
-//         /// <param name="property"></param>
-//         protected void DrawPropertySortableArray(SerializedProperty property)
-//         {
-//             // Try to get the sortable list this property belongs to
-//             SortableListData listData = null;
-//             if (listIndex.Count > 0)
-//                 listData = listIndex.Find(data => property.propertyPath.StartsWith(data.Parent));
-//
-//             Editor scriptableEditor;
-//             bool isScriptableEditor = editableIndex.TryGetValue(property.propertyPath, out scriptableEditor);
-//
-//             // Has ReorderableList
-//             if (listData != null)
-//             {
-//                 // Try to show the list
-//                 if (listData.DoLayoutProperty(property) == false)
-//                 {
-//                     EditorGUILayout.PropertyField(property, false);
-//                     if (property.isExpanded)
-//                     {
-//                         EditorGUI.indentLevel++;
-//                         SerializedProperty targetProp = serializedObject.FindProperty(property.propertyPath);
-//                         IterateDrawProperty(targetProp);
-//                         EditorGUI.indentLevel--;
-//                     }
-//                 }
-//             }
-//
-//             // Else try to draw ScriptableObject editor
-//             else if (isScriptableEditor)
-//             {
-//                 bool hasHeader = property.HasAttribute<HeaderAttribute>();
-//                 bool hasSpace = property.HasAttribute<SpaceAttribute>();
-//
-//                 float foldoutSpace = hasHeader ? 24 : 7;
-//                 if (hasHeader && hasSpace)
-//                     foldoutSpace = 31;
-//
-//                 hasSpace |= hasHeader;
-//
-//                 // No data in property, draw property field with create button
-//                 if (scriptableEditor == null)
-//                 {
-//                     bool doCreate;
-//                     using (new EditorGUILayout.HorizontalScope())
-//                     {
-//                         EditorGUILayout.PropertyField(property, uiExpandWidth);
-//                         using (new EditorGUILayout.VerticalScope(uiWidth50))
-//                         {
-//                             if (hasSpace) GUILayout.Space(10);
-//                             doCreate = GUILayout.Button(labelBtnCreate, EditorStyles.miniButton);
-//                         }
-//                     }
-//
-//                     if (doCreate)
-//                     {
-//                         Type propType = property.GetTypeReflection();
-//                         ScriptableObject createdAsset = CreateAssetWithSavePrompt(propType, "Assets");
-//                         if (createdAsset != null)
-//                         {
-//                             property.objectReferenceValue = createdAsset;
-//                             property.isExpanded = true;
-//                         }
-//                     }
-//                 }
-//
-//                 // Has data in property, draw foldout and editor
-//                 else
-//                 {
-//                     EditorGUILayout.PropertyField(property);
-//
-//                     Rect rectFoldout = GUILayoutUtility.GetLastRect();
-//                     rectFoldout.width = 20;
-//                     if (hasSpace) rectFoldout.yMin += foldoutSpace;
-//
-//                     property.isExpanded = EditorGUI.Foldout(rectFoldout, property.isExpanded, GUIContent.none);
-//
-//                     if (property.isExpanded)
-//                     {
-//                         EditorGUI.indentLevel++;
-//                         using (new EditorGUILayout.VerticalScope(styleEditBox))
-//                         {
-//                             int restoreIndent = EditorGUI.indentLevel;
-//                             EditorGUI.indentLevel = 1;
-//                             scriptableEditor.serializedObject.Update();
-//                             scriptableEditor.OnInspectorGUI();
-//                             scriptableEditor.serializedObject.ApplyModifiedProperties();
-//                             EditorGUI.indentLevel = restoreIndent;
-//                         }
-//
-//                         EditorGUI.indentLevel--;
-//                     }
-//                 }
-//             }
-//             else
-//             {
-//                 SerializedProperty targetProp = serializedObject.FindProperty(property.propertyPath);
-//
-//                 bool isStartProp = targetProp.propertyPath.StartsWith("m_");
-//                 using (new EditorGUI.DisabledScope(isStartProp)) { EditorGUILayout.PropertyField(targetProp, targetProp.isExpanded); }
-//             }
-//         }
-//
-//         // Creates a new ScriptableObject via the default Save File panel
+         protected virtual void DrawInspector()
+         {
+             DrawPropertiesAll();
+         }
+
+         protected enum IterControl
+         {
+             Draw,
+             Continue,
+             Break
+         }
+
+         protected void IterateDrawProperty(SerializedProperty property, Func<IterControl> filter = null)
+         {
+             if (property.NextVisible(true))
+             {
+                 // Remember depth iteration started from
+                 int depth = property.Copy().depth;
+                 do
+                 {
+                     // If goes deeper than the iteration depth, get out
+                     if (property.depth != depth)
+                         break;
+                     if (isSubEditor && property.name.Equals("m_Script"))
+                         continue;
+
+                     if (filter != null)
+                     {
+                         IterControl filterResult = filter();
+                         if (filterResult == IterControl.Break)
+                             break;
+                         if (filterResult == IterControl.Continue)
+                             continue;
+                     }
+
+                     DrawPropertySortableArray(property);
+                 } while (property.NextVisible(false));
+             }
+         }
+
+         /// <summary>
+         ///     Draw a SerializedProperty as a ReorderableList if it was found during
+         ///     initialization, otherwise use EditorGUILayout.PropertyField
+         /// </summary>
+         /// <param name="property"></param>
+         protected void DrawPropertySortableArray(SerializedProperty property)
+         {
+             // Try to get the sortable list this property belongs to
+             SortableListData listData = null;
+             if (listIndex.Count > 0)
+                 listData = listIndex.Find(data => property.propertyPath.StartsWith(data.Parent));
+
+             Editor scriptableEditor;
+             bool isScriptableEditor = editableIndex.TryGetValue(property.propertyPath, out scriptableEditor);
+
+             // Has ReorderableList
+             if (listData != null)
+             {
+                 // Try to show the list
+                 if (listData.DoLayoutProperty(property) == false)
+                 {
+                     EditorGUILayout.PropertyField(property, false);
+                     if (property.isExpanded)
+                     {
+                         EditorGUI.indentLevel++;
+                         SerializedProperty targetProp = serializedObject.FindProperty(property.propertyPath);
+                         IterateDrawProperty(targetProp);
+                         EditorGUI.indentLevel--;
+                     }
+                 }
+             }
+             /* TODO: re-implement ScriptableObject editor, if needed
+             // Else try to draw ScriptableObject editor
+             else if (isScriptableEditor)
+             {
+                 bool hasHeader = property.HasAttribute<HeaderAttribute>();
+                 bool hasSpace = property.HasAttribute<SpaceAttribute>();
+
+                 float foldoutSpace = hasHeader ? 24 : 7;
+                 if (hasHeader && hasSpace)
+                     foldoutSpace = 31;
+
+                 hasSpace |= hasHeader;
+
+                 // No data in property, draw property field with create button
+                 if (scriptableEditor == null)
+                 {
+                     bool doCreate;
+                     using (new EditorGUILayout.HorizontalScope())
+                     {
+                         EditorGUILayout.PropertyField(property, uiExpandWidth);
+                         using (new EditorGUILayout.VerticalScope(uiWidth50))
+                         {
+                             if (hasSpace) GUILayout.Space(10);
+                             doCreate = GUILayout.Button(labelBtnCreate, EditorStyles.miniButton);
+                         }
+                     }
+
+                     if (doCreate)
+                     {
+                         Type propType = property.GetTypeReflection();
+                         ScriptableObject createdAsset = CreateAssetWithSavePrompt(propType, "Assets");
+                         if (createdAsset != null)
+                         {
+                             property.objectReferenceValue = createdAsset;
+                             property.isExpanded = true;
+                         }
+                     }
+                 }
+
+                 // Has data in property, draw foldout and editor
+                 else
+                 {
+                     EditorGUILayout.PropertyField(property);
+
+                     Rect rectFoldout = GUILayoutUtility.GetLastRect();
+                     rectFoldout.width = 20;
+                     if (hasSpace) rectFoldout.yMin += foldoutSpace;
+
+                     property.isExpanded = EditorGUI.Foldout(rectFoldout, property.isExpanded, GUIContent.none);
+
+                     if (property.isExpanded)
+                     {
+                         EditorGUI.indentLevel++;
+                         using (new EditorGUILayout.VerticalScope(styleEditBox))
+                         {
+                             int restoreIndent = EditorGUI.indentLevel;
+                             EditorGUI.indentLevel = 1;
+                             scriptableEditor.serializedObject.Update();
+                             scriptableEditor.OnInspectorGUI();
+                             scriptableEditor.serializedObject.ApplyModifiedProperties();
+                             EditorGUI.indentLevel = restoreIndent;
+                         }
+
+                         EditorGUI.indentLevel--;
+                     }
+                 }
+             }
+             */
+             else
+             {
+                 SerializedProperty targetProp = serializedObject.FindProperty(property.propertyPath);
+
+                 bool isStartProp = targetProp.propertyPath.StartsWith("m_");
+                 using (new EditorGUI.DisabledScope(isStartProp)) { EditorGUILayout.PropertyField(targetProp, targetProp.isExpanded); }
+             }
+         }
+
+// TODO: re-implement ScriptableObject editor, if needed
+// // Creates a new ScriptableObject via the default Save File panel
 //         private ScriptableObject CreateAssetWithSavePrompt(Type type, string path)
 //         {
 //             path = EditorUtility.SaveFilePanelInProject("Save ScriptableObject", "New " + type.Name + ".asset", "asset", "Enter a file name for the ScriptableObject.", path);
@@ -864,20 +863,22 @@ namespace SubjectNerd.Utilities
 //             EditorGUIUtility.PingObject(asset);
 //             return asset;
 //         }
-//
-//         #endregion
-//
-//         #region Methods (Utilities)
-//
-//         /// <summary>
-//         ///     Draw the default inspector, with the sortable arrays
-//         /// </summary>
-//         public void DrawPropertiesAll()
-//         {
-//             SerializedProperty iterProp = serializedObject.GetIterator();
-//             IterateDrawProperty(iterProp);
-//         }
-//
+
+         #endregion
+
+         #region Methods (Utilities)
+
+         /// <summary>
+         ///     Draw the default inspector, with the sortable arrays
+         /// </summary>
+         public void DrawPropertiesAll()
+         {
+             SerializedProperty iterProp = serializedObject.GetIterator();
+             IterateDrawProperty(iterProp);
+         }
+
+         
+// TODO: re-implement ScriptableObject editor, if needed
 //         /// <summary>
 //         ///     Draw the default inspector, except for the given property names
 //         /// </summary>
@@ -954,7 +955,7 @@ namespace SubjectNerd.Utilities
 //                     return IterControl.Draw;
 //                 });
 //         }
-//
+
         public void DrawContextMenuButtons()
         {
             if (contextData.Count == 0) return;
@@ -974,9 +975,7 @@ namespace SubjectNerd.Utilities
             }
         }
 
-//
-//         #endregion
 
-        #endregion
+         #endregion
     }
 }

@@ -130,9 +130,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 728567572}
-  - component: {fileID: 728567576}
-  - component: {fileID: 728567575}
+  - component: {fileID: 728567574}
   - component: {fileID: 728567573}
+  - component: {fileID: 728567571}
   m_Layer: 0
   m_Name: Reorderable List Inheritance Test
   m_TagString: Untagged
@@ -140,6 +140,27 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &728567571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 728567570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 317dde58730cf734faba3e7e0c1163ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  list:
+  - 1
+  - 2
+  - 3
+  childList: 010000000200000003000000
+  deepChildList:
+  - one
+  - two
+  - three
 --- !u!4 &728567572
 Transform:
   m_ObjectHideFlags: 0
@@ -163,28 +184,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 728567570}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8fd17adedf1d3d343aeeda3b7d103713, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  list:
-  - 1
-  - 2
-  - 3
-  childList: 000000000000000000000000
-  deepChildList:
-  - one
-  - two
-  - three
---- !u!114 &728567575
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 728567570}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19ed0f4445c38a049a927f129da363cf, type: 3}
+  m_Script: {fileID: 11500000, guid: 658284cd48637594e83f04101667025f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   list:
@@ -192,7 +192,7 @@ MonoBehaviour:
   - 2
   - 3
   childList: 010000000200000003000000
---- !u!114 &728567576
+--- !u!114 &728567574
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -201,10 +201,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 728567570}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cfdcb91f3128b024db65d4201ac0037d, type: 3}
+  m_Script: {fileID: 11500000, guid: 059ebfad8f890954a95cb5e080f92a49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  list: []
+  list:
+  - 1
+  - 2
+  - 3
 --- !u!1 &1330635117
 GameObject:
   m_ObjectHideFlags: 0
@@ -304,10 +307,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1608990244}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bfb4716d6b7dbc64287f92824032da35, type: 3}
+  m_Script: {fileID: 11500000, guid: cc7c4f5e734c5134cbad57d98fe74900, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MalimbeList: 000001
 --- !u!114 &1608990246
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -317,7 +319,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1608990244}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7104e8209be1cef4a8d95c7fe40c764b, type: 3}
+  m_Script: {fileID: 11500000, guid: 750157c3dcc275d40acd39e28a681e79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   unrelatedList: 000001

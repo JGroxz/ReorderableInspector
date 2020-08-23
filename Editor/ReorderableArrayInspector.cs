@@ -33,11 +33,11 @@ namespace SubjectNerd.Utilities
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-    using Games.NoSoySauce.Avatars.Calibration.Body.Samples;
     using UnityEditor;
     using UnityEditor.Callbacks;
     using UnityEditorInternal;
     using UnityEngine;
+    using Object = UnityEngine.Object;
 
     [CustomEditor(typeof(UnityEngine.Object), true)/*, CanEditMultipleObjects*/] //[CustomEditor(typeof(Object), true /*, isFallback = true*/), CanEditMultipleObjects]
     public class ReorderableArrayInspector : Editor
@@ -285,7 +285,6 @@ namespace SubjectNerd.Utilities
 
         #region Static Variables
 
-        [ClearOnReload(valueToAssign: false)]
         protected static bool ForceInit;
 
         private static GUIStyle styleHighlight;
